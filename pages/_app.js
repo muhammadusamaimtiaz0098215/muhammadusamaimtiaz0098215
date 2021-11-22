@@ -3,6 +3,7 @@ import Head from "next/head";
 import NProgress from "nprogress";
 import Router from "next/router";
 import setAxiosDefault from "../store/utils/setAxiosDefaults";
+import NoSSR from "react-no-ssr";
 import { wrapper } from "../store";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -13,7 +14,7 @@ setAxiosDefault();
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <NoSSR>
         <Head>
           <meta
             name="viewport"
@@ -25,7 +26,7 @@ function MyApp({ Component, pageProps }) {
           <title>Graana Admin</title>
         </Head>    
       <Component {...pageProps} />
-    </> 
+    </NoSSR> 
   ) 
 }
 
