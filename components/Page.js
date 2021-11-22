@@ -9,7 +9,12 @@ const NonDashboardRoutes = [
 ];
 
 const Page = ({ router, children }) => {
-  return <>Workable</>;
+  const isNotDashboard = NonDashboardRoutes.includes(router.pathname);
+
+  return <>
+    { !isNotDashboard && <>Side-Bar Component Here</> }
+    { children }
+  </>;
 };
 
 export default withRouter(Page);

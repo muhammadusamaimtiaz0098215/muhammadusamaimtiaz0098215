@@ -14,6 +14,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 setAxiosDefault();
 
 function MyApp({ Component, pageProps }) {
+
   return (
     <NoSSR>
       <Head>
