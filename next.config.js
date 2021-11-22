@@ -1,5 +1,10 @@
+const path = require('path');
+
 module.exports = {
   reactStrictMode: true,
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+  },
   env: {
     apiEndpoint: process.env.API_ENDPOINT,
     environment: process.env.ENVIRONMENT,
