@@ -6,6 +6,8 @@ import setAxiosDefault from "../store/utils/setAxiosDefaults";
 import NoSSR from "react-no-ssr";
 import { wrapper } from "../store";
 import Page from "../components/Page";
+import Login from "../components/admin/Login";
+import "bootstrap/dist/css/bootstrap.css";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -14,7 +16,6 @@ Router.events.on("routeChangeError", () => NProgress.done());
 setAxiosDefault();
 
 function MyApp({ Component, pageProps }) {
-
   return (
     <NoSSR>
       <Head>
