@@ -1,0 +1,328 @@
+.add_container {
+  // height: 100%;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  background-color: #ffffff;
+
+  .row {
+    justify-content: center;
+  }
+
+  .add_form_fields {
+    // .status_label {
+    //   position: relative;
+    //   display: flex;
+    //   align-items: center;
+    //   margin-bottom: 35px;
+    //   padding: 0;
+    // }
+    .Login_p {
+      color: #bf1650;
+      // border: 1px solid #bf1650;
+      // border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    .Login_p::before {
+      //display: inline;
+      content: "⚠ ";
+    }
+    label {
+      width: 186px;
+      font-size: 14px;
+      height: 21px;
+      color: #8898aa;
+      padding-top: 1px;
+    }
+
+    #flexSwitchCheckChecked {
+      width: 40px;
+      height: 20px;
+      background-color: #ff4148;
+      border-color: #ff4148;
+      padding-left: 0px;
+    }
+    // }
+    .form_group {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 35px;
+
+      input[type="file"] {
+        outline: none;
+        border: none !important;
+        height: 26px !important;
+        font-size: 14px !important;
+        padding-left: 11px !important;
+        border-color: #fff !important;
+        padding-top: 3px;
+      }
+
+      textarea {
+        border: none;
+        border-bottom: 1px solid #dedede;
+        border-radius: 0;
+        color: #576167;
+        box-shadow: none;
+        height: 0px;
+        font-size: 14px;
+        padding-bottom: 10px;
+        padding-left: 0;
+        overflow: hidden;
+        background: transparent;
+        min-height: 19px;
+      }
+
+      .label_inner {
+        display: inline-block;
+        margin-bottom: 0;
+        width: 174px;
+        font-size: 14px;
+        height: 21px;
+        color: #8898aa;
+        padding-top: 1px;
+      }
+
+      .category {
+        width: 151px;
+      }
+
+      .category_cbox {
+        height: 18px;
+        width: 18px;
+        margin-right: 8px;
+      }
+
+      .category_lbl {
+        padding-top: 2px;
+      }
+
+      input.form_control {
+        border: none;
+        font-size: 14px;
+        border-bottom: 1px solid #dedede;
+        border-radius: 0;
+        background: transparent;
+        padding-left: 0px;
+        color: #576167;
+        box-shadow: none;
+        height: 18px;
+        font-size: 14px;
+        padding-bottom: 10px;
+      }
+      .styles.form_check_input {
+        padding-left: 0px;
+      }
+
+      select {
+        border: none;
+        font-size: 14px;
+        border-bottom: 1px solid #dedede;
+        border-radius: 0;
+        background: transparent;
+        padding-left: 0;
+        color: #576167;
+        box-shadow: none;
+        font-size: 14px;
+        padding-bottom: 0px;
+      }
+
+      img {
+        position: absolute;
+        right: 0;
+        top: 15px;
+        width: 16px;
+        cursor: pointer;
+      }
+
+      .forgot_title {
+        float: right;
+        font-size: 12px;
+        margin-top: 12px;
+        color: #e85451;
+      }
+    }
+  }
+
+  .title_lg {
+    font-size: 26px;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    span {
+      color: #e85451;
+    }
+  }
+
+  h4 {
+    color: #e85451;
+    font-size: 16px;
+  }
+
+  .btn_div {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+
+    .btn {
+      font-size: 14px;
+      border: none;
+      width: 100%;
+      max-width: 200px;
+      padding: 0;
+
+      a {
+        display: block;
+
+        padding: 0.375rem 0.75rem;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    .btn_red {
+      background-color: #ff4148;
+      color: #fff;
+      border: 1px solid #ff4148;
+      border-radius: 29px;
+      height: 50px;
+      width: 200px;
+      a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .add_form {
+    .card_div {
+      padding: 58px 58px;
+      box-shadow: 0px 2px 7px 0px #cccccc85;
+      border-radius: 10px;
+    }
+  }
+
+  .sign_up {
+    text-align: center;
+    padding: 20px 0 0;
+  }
+}
+
+.area_tags {
+  border-radius: 4px;
+  background-color: #ff4148;
+  font-size: 12px;
+  padding: 4px 8px;
+  color: #fff;
+  left: 151px;
+  top: 27px;
+  position: absolute;
+  span {
+    padding-left: 7px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+.professional_table {
+  padding-left: 220px;
+  padding-top: 57px;
+
+  .head_wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 30px;
+    align-items: center;
+    height: 100px;
+
+    h3 {
+      color: #e85451;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    span {
+      background-color: #e85451;
+      color: #fff;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      font-size: 30px;
+      display: flex;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: "Poppins", sans-serif;
+      a {
+        display: block;
+        text-decoration: none;
+        width: 100%;
+        color: #ffffff;
+        text-align: center;
+      }
+    }
+  }
+
+  table {
+    td,
+    th {
+      border-bottom: none;
+      vertical-align: middle;
+      border: none;
+      position: relative;
+    }
+
+    thead {
+      th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: none;
+        vertical-align: middle;
+        font-weight: 500;
+      }
+      tr {
+        font-size: 14px;
+        color: #8898aa;
+        background: #f1f3f9;
+      }
+    }
+
+    tbody {
+      tr {
+        font-size: 12px;
+      }
+
+      .mic_icon {
+        position: absolute;
+        top: 26px;
+        left: 10px;
+        width: 10px;
+      }
+      .img_span img {
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+      }
+    }
+
+    .phone_icon {
+      width: 24px;
+      cursor: pointer;
+    }
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #ffffff;
+  }
+
+  .table-striped tbody tr:nth-of-type(even) {
+    background-color: #f7fafc;
+  }
+}

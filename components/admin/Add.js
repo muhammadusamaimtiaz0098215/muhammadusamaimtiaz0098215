@@ -1,6 +1,22 @@
-import styles from "../../styles/ComponentStyles/admin/Add.module.css";
+import { Form, Button } from "react-bootstrap";
+import styles from "../../styles/ComponentStyles/admin/Add.module.scss";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import Link from "next/link";
 
 const Add = () => {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onsubmit = (data) => {
+    console.log(data);
+    console.log(errors);
+  };
+
   return (
     <div>
       <div className={styles.professional_table}>
@@ -13,90 +29,204 @@ const Add = () => {
               <div className="col-md-12">
                 <div className={styles.add_form}>
                   <div className="text-wrapper">
-                    <form className={styles.add_form_fields}>
+                    <Form
+                      onSubmit={handleSubmit(onsubmit)}
+                      className={styles.add_form_fields}
+                    >
                       <div className={styles.card_div}>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Name
-                          </label>
-                          <input type="text" className="form-control" id=" " />
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                          </Form.Label>
+                          <Form.Control
+                            {...register("Name", {
+                              required: true,
+                              minLength: 3,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
+                            type="text"
+                          />
+                        </Form.Group>
+                        {errors?.Name?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Username
-                          </label>
-                          <input type="text" className="form-control" id=" " />
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                          </Form.Label>
+                          <Form.Control
+                            {...register("Username", {
+                              required: true,
+                              minLength: 3,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
+                            type="text"
+                            id=" "
+                          />
+                        </Form.Group>
+                        {errors?.Username?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Email Address
-                          </label>
-                          <input type="email" className="form-control" id=" " />
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                          </Form.Label>
+                          <Form.Control
+                            {...register("Email", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
+                            type="email"
+                            id=" "
+                          />
+                        </Form.Group>
+                        {errors?.Email?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Area
-                          </label>
-                          <select className="form-control" size={0}>
-                            <option value="Lahore">abc</option>
-                            <option value="Karachi">abcd</option>
-                          </select>
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner}>City</label>
-                          <select className="form-control" size={0}>
+                          </Form.Label>
+                          <Form.Select
+                            {...register("Area", {
+                              required: true,
+                            })}
+                            aria-label="Default select example"
+                          >
+                            <option>Please Select Your Area from here</option>
+                            <option>abc</option>
+                            <option>abcd</option>
+                          </Form.Select>
+                        </Form.Group>
+                        {errors?.Area?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
+                            City
+                          </Form.Label>
+                          <Form.Select
+                            {...register("City", {
+                              required: true,
+                            })}
+                          >
+                            <option>Please select your City</option>
                             <option value="Lahore">Lahore</option>
                             <option value="Karachi">Karachi</option>
-                          </select>
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                          </Form.Select>
+                        </Form.Group>
+                        {errors?.City?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Geo Codes
-                          </label>
-                          <input type className="form-control" id=" " />
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                          </Form.Label>
+                          <Form.Control
+                            {...register("GeoCodes", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
+                            id=" "
+                          />
+                        </Form.Group>{" "}
+                        {errors?.GeoCodes?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Description
-                          </label>
-                          <textarea
-                            className="form-control"
+                          </Form.Label>
+                          <Form.Control
+                            {...register("Description", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
+                            as="textarea"
                             id="exampleFormControlTextarea1"
                             defaultValue={""}
                           />
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                        </Form.Group>{" "}
+                        {errors?.Description?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Display Picture
-                          </label>
-                          <input
-                            className="form-control"
+                          </Form.Label>
+                          <Form.Control
+                            {...register("DisplayPicture", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
                             type="file"
                             id="formFile"
                           />
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                        </Form.Group>
+                        {errors?.DisplayPicture?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Portfolio Pictures
-                          </label>
-                          <input
-                            className="form-control"
+                          </Form.Label>
+                          <Form.Control
+                            {...register("PortfolioPicture", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
                             type="file"
                             id="formFileMultiple"
                             multiple
                           />
-                        </div>
-                        <div className="form-group">
-                          <label className={("category", styles.label_inner)}>
+                        </Form.Group>
+                        {errors?.PortfolioPicture?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Categories
-                          </label>
+                          </Form.Label>
                           <div className="form-check form-check-inline padding-0">
                             <input
-                              className="form-check-input category-cbox"
+                              className={styles.category_cbox}
                               type="checkbox"
                               id="inlineCheckbox1"
                               defaultValue="option1"
+                              {...register("Category", {
+                                required: true,
+                              })}
                             />
+                            {errors?.Category?.type === "required" && (
+                              <p className={styles.Login_p}>
+                                This field is required
+                              </p>
+                            )}
                             <label
                               className="form-check-label category-lbl"
                               htmlFor="inlineCheckbox1"
@@ -110,7 +240,15 @@ const Add = () => {
                               type="checkbox"
                               id="inlineCheckbox2"
                               defaultValue="option2"
+                              {...register("Category", {
+                                required: true,
+                              })}
                             />
+                            {errors?.Category?.type === "required" && (
+                              <p className={styles.Login_p}>
+                                This field is required
+                              </p>
+                            )}
                             <label
                               className="form-check-label category-lbl"
                               htmlFor="inlineCheckbox2"
@@ -124,7 +262,15 @@ const Add = () => {
                               type="checkbox"
                               id="inlineCheckbox3"
                               defaultValue="option3"
+                              {...register("Category", {
+                                required: true,
+                              })}
                             />
+                            {errors?.Category?.type === "required" && (
+                              <p className={styles.Login_p}>
+                                This field is required
+                              </p>
+                            )}
                             <label
                               className="form-check-label category-lbl"
                               htmlFor="inlineCheckbox3"
@@ -132,93 +278,164 @@ const Add = () => {
                               Three
                             </label>
                           </div>
-                        </div>
-                        <div className="form-group">
-                          <label
+                        </Form.Group>
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label
                             className={styles.label_inner}
                             htmlFor="number"
                           >
                             CNIC
-                          </label>
-                          <input
+                          </Form.Label>
+                          <Form.Control
+                            {...register("CNIC", {
+                              required: true,
+                              maxLength: 13,
+                            })}
+                            className={styles.form_control}
                             type="number"
-                            className="form-control"
                             id=" "
                           />
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner}>
+                        </Form.Group>
+                        {errors?.CNIC?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Additional Areas
-                          </label>
-                          <input
+                          </Form.Label>
+                          <Form.Control
+                            {...register("AdditionalAreas", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
                             placeholder="Press enter to add additional areas"
                             type="text"
-                            className="form-control"
                             id=" "
                           />
-                          <div className="area-tags">
+
+                          <div className={styles.area_tags}>
                             area
                             <span className="icon-close">x</span>
                           </div>
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                        </Form.Group>{" "}
+                        {errors?.AdditionalAreas?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Office Address
-                          </label>
-                          <textarea
-                            className="form-control"
+                          </Form.Label>
+                          <Form.Control
+                            {...register("OfficeAddress", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
+                            as="textarea"
                             id="exampleFormControlTextarea1"
                             defaultValue={""}
                           />
-                        </div>
-                        <div className="form-group">
-                          <label className={styles.label_inner} htmlFor>
+                        </Form.Group>
+                        {errors?.OfficeAddress?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Secondary Address
-                          </label>
-                          <textarea
-                            className="form-control"
+                          </Form.Label>
+                          <Form.Control
+                            {...register("SecondaryAddress", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
+                            as="textarea"
                             id="exampleFormControlTextarea1"
                             defaultValue={""}
                           />
-                        </div>
-                        <div className="form-check form-switch status-label">
-                          <label
+                        </Form.Group>
+                        {errors?.SecondaryAddress?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group
+                          className={styles.form_group}
+                          //className="form-check form-switch status-label"
+                        >
+                          <Form.Label
                             className={styles.label_inner}
                             htmlFor="flexSwitchCheckChecked"
                           >
                             Active Status
-                          </label>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="flexSwitchCheckChecked"
-                            defaultChecked
-                          />
+                          </Form.Label>
+                          <Form.Switch>
+                            <Form.Control
+                              className={`${styles.form_check_input} form-check-input`}
+                              //className={styles.form_check_input}
+                              type="checkbox"
+                              id="flexSwitchCheckChecked"
+                              defaultChecked
+                              {...register("ActiveStatus", {
+                                required: true,
+                              })}
+                            />
+                          </Form.Switch>
                           <label
                             className="form-check-label"
                             htmlFor="flexSwitchCheckChecked"
                           ></label>
-                        </div>
-                        <div className="form-group mb-0">
-                          <label className={styles.label_inner} htmlFor>
+                        </Form.Group>{" "}
+                        {errors?.ActiveStatus?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group
+                          className={styles.form_group}
+                          // className="form-group mb-0"
+                        >
+                          <Form.Label className={styles.label_inner}>
                             Contact
-                          </label>
-                          <input
+                          </Form.Label>
+                          <Form.Control
+                            {...register("Contact", {
+                              required: true,
+                              maxLength: 32,
+                            })}
+                            className={styles.form_control}
                             type="number"
-                            className="form-control"
-                            id=" "
                           />
-                        </div>
+                        </Form.Group>
+                        {errors?.Contact?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
                       </div>
                       <div className={styles.btn_div}>
-                        <button
+                        <Button
                           type="submit"
                           className={(styles.btn, styles.btn_red)}
                         >
-                          <a href="#"> Add Professional </a>
-                        </button>
+                          <a
+                            onClick={() => {
+                              router.push("/admin/add");
+                            }}
+                          >
+                            {" "}
+                            Add Professional{" "}
+                          </a>
+                        </Button>
                       </div>
-                    </form>
+                    </Form>
                   </div>
                 </div>
               </div>

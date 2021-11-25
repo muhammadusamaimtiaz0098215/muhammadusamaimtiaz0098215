@@ -1,6 +1,4 @@
 import { useRouter, withRouter } from "next/router";
-import Add from "../components/admin/Add";
-import Login from "../components/admin/Login";
 import Image from "next/image";
 import images from "../public/assets/images/index";
 
@@ -17,24 +15,26 @@ const Page = ({ router, children }) => {
   const isNotDashboard = NonDashboardRoutes.includes(router.pathname);
 
   return (
-    <>
+    <div>
       {!isNotDashboard && (
-        <>
-          <div>
-            <div className="navbar-main">
-              <nav className="navbar navbar-expand-lg">
-                <div className="container-fluid">
-                  <a href="/" className="navbar-brand">
-                    <Image width={146} height={28} src={images.logo} />
-                  </a>
+        <div>
+          <div className="navbar-main">
+            <nav className="navbar navbar-expand-lg">
+              <div className="container-fluid">
+                <a href="/" className="navbar-brand">
+                  <Image width={146} height={28} src={images.logo} />
+                </a>
+                {route.query.param === "login" ? null : (
                   <span>
                     <div className="user-img">
                       <Image src={images.professional} />
                     </div>
                   </span>
-                </div>
-              </nav>
-            </div>
+                )}
+              </div>
+            </nav>
+          </div>
+          {route.query.param === "login" ? null : (
             <div className="sidenav">
               <a
                 className="g-cursor-pointer"
@@ -68,11 +68,11 @@ const Page = ({ router, children }) => {
                 Professionals
               </a>
             </div>
-          </div>
-        </>
+          )}
+        </div>
       )}
       {children}
-    </>
+    </div>
   );
 };
 

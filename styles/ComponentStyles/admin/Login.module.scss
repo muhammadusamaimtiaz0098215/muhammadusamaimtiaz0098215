@@ -1,0 +1,146 @@
+.login_container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  padding-top: 10%;
+
+  .login_form_fields {
+    padding-top: 10px;
+    font-size: 14px;
+    margin-top: 15px;
+
+    .form_group {
+      position: relative;
+      //display: flex;
+
+      .inputset {
+        display: flex;
+      }
+
+      .hides {
+        margin-top: 20px;
+      }
+
+      .Login_p {
+        color: #bf1650;
+        border: 1px solid #bf1650;
+        border-radius: 5px;
+        margin-top: 5px;
+      }
+
+      .Login_p::before {
+        display: inline;
+        content: "⚠ ";
+      }
+
+      img {
+        //position: relative;
+        //align-self: auto;
+        right: 0;
+        top: 15px;
+        width: 16px;
+        cursor: pointer;
+      }
+
+      .forgot_title {
+        float: right;
+        font-size: 12px;
+        margin-top: 12px;
+        color: #e85451;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .form_control {
+      border: none;
+      font-size: 14px;
+      border-bottom: 1px solid #dedede;
+      border-radius: 0;
+      background: transparent;
+      padding-left: 0;
+      color: #576167;
+      box-shadow: none;
+      width: 100%;
+      padding-top: 7%;
+    }
+  }
+
+  .title_lg {
+    font-size: 26px;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    span {
+      color: #e85451;
+    }
+  }
+
+  h4 {
+    color: #e85451;
+    font-size: 16px;
+  }
+
+  .btn_div {
+    margin-top: 70px;
+
+    .btn {
+      font-size: 14px;
+      border: none;
+      width: 100%;
+      padding: 0;
+      //background-color: #ff4148;
+      border-radius: 0.25rem;
+
+      a {
+        display: block;
+
+        padding: 0.375rem 0.75rem;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    .btn_red {
+      background-color: #ff4148;
+      color: #fff;
+      border: 1px solid #ff4148;
+      margin-bottom: 70px;
+      border-radius: 0.25rem;
+      width: 200px;
+
+      a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+    }
+
+    .btn_white {
+      background-color: #ffffff;
+      border-radius: 0.25rem;
+      float: right;
+      border: 1px solid #ff4148;
+      width: 200px;
+      a {
+        color: #ff4148;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .login_form {
+    width: 550px;
+    padding: 15px;
+  }
+
+  .sign_up {
+    text-align: center;
+    padding: 20px 0 0;
+  }
+}

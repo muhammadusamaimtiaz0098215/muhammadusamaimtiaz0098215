@@ -1,4 +1,4 @@
-import styles from "../../styles/ComponentStyles/admin/Professionals.module.css";
+import styles from "../../styles/ComponentStyles/admin/Professional.module.scss";
 import Image from "next/image";
 import images from "../../public/assets/images/index";
 import image from "next/image";
