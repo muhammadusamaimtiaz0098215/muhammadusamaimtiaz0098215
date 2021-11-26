@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { LoginAPI } from "../../pages/api/apiCalls";
 
 const Login = () => {
   const router = useRouter();
@@ -15,8 +16,13 @@ const Login = () => {
   } = useForm();
 
   const onsubmit = (data) => {
-    console.log(data);
-    console.log(errors);
+    const userData = {
+      email: data.email,
+      password: data.password,
+    };
+    LoginAPI(userData).then((res) => {
+      console.log(res);
+    });
   };
 
   return (
@@ -36,10 +42,10 @@ const Login = () => {
                 {/* <label htmlFor="inputEmail">Email address</label> */}
                 <Form.Control
                   type="email"
-                  {...register("Email", { required: true, maxLength: 32 })}
+                  {...register("email", { required: true, maxLength: 32 })}
                   className={styles.form_control}
                   placeholder="Email"
-                  name="Email"
+                  name="email"
                 />
                 {errors?.Email?.type === "required" && (
                   <p className={styles.Login_p}>Please provide a Valid Email</p>
@@ -52,7 +58,7 @@ const Login = () => {
                   <div className={`${styles.hidedivset} col-11`}>
                     <Form.Control
                       type="password"
-                      {...register("Password", {
+                      {...register("password", {
                         required: true,
                         minLength: 8,
                         maxLength: 50,

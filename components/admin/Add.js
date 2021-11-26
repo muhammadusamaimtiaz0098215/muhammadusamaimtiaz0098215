@@ -3,8 +3,21 @@ import styles from "../../styles/ComponentStyles/admin/Add.module.scss";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { useEffect } from "react";
+import { CityAPI } from "../../pages/api/apiCalls";
 
 const Add = () => {
+  let city_ID = "";
+  useEffect(() => {
+    CityAPI().then((res) => {
+      console.log(res.data[0].name);
+      let len = res.data.length;
+      city_ID = res.data;
+
+      console.log(city_ID[2]);
+    });
+  });
+
   const router = useRouter();
   const {
     register,
@@ -94,6 +107,25 @@ const Add = () => {
                         )}
                         <Form.Group className={styles.form_group}>
                           <Form.Label className={styles.label_inner}>
+                            City
+                          </Form.Label>
+                          <Form.Select
+                            {...register("City", {
+                              required: true,
+                            })}
+                          >
+                            <option>Please select your City</option>
+                            <option value="Lahore">Lahore</option>
+                            <option value="Karachi">Karachi</option>
+                          </Form.Select>
+                        </Form.Group>
+                        {errors?.City?.type === "required" && (
+                          <p className={styles.Login_p}>
+                            This field is required
+                          </p>
+                        )}
+                        <Form.Group className={styles.form_group}>
+                          <Form.Label className={styles.label_inner}>
                             Area
                           </Form.Label>
                           <Form.Select
@@ -108,25 +140,6 @@ const Add = () => {
                           </Form.Select>
                         </Form.Group>
                         {errors?.Area?.type === "required" && (
-                          <p className={styles.Login_p}>
-                            This field is required
-                          </p>
-                        )}
-                        <Form.Group className={styles.form_group}>
-                          <Form.Label className={styles.label_inner}>
-                            City
-                          </Form.Label>
-                          <Form.Select
-                            {...register("City", {
-                              required: true,
-                            })}
-                          >
-                            <option>Please select your City</option>
-                            <option value="Lahore">Lahore</option>
-                            <option value="Karachi">Karachi</option>
-                          </Form.Select>
-                        </Form.Group>
-                        {errors?.City?.type === "required" && (
                           <p className={styles.Login_p}>
                             This field is required
                           </p>
