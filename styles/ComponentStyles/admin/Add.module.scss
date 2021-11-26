@@ -115,6 +115,13 @@
       .styles.form_check_input {
         padding-left: 0px;
       }
+      .form_check_input:checked {
+        padding-left: 0px;
+        background-color: #ff4148;
+        border-color: #ff4148;
+        width: 40px;
+        height: 20px;
+      }
 
       select {
         border: none;

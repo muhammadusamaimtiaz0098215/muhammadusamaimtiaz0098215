@@ -217,7 +217,8 @@ const Add = () => {
                               className={styles.category_cbox}
                               type="checkbox"
                               id="inlineCheckbox1"
-                              defaultValue="option1"
+                              //defaultValue="option1"
+                              value="One"
                               {...register("Category", {
                                 required: true,
                               })}
@@ -239,7 +240,8 @@ const Add = () => {
                               className="form-check-input category-cbox"
                               type="checkbox"
                               id="inlineCheckbox2"
-                              defaultValue="option2"
+                              //defaultValue="option2"
+                              value="Two"
                               {...register("Category", {
                                 required: true,
                               })}
@@ -261,7 +263,8 @@ const Add = () => {
                               className="form-check-input category-cbox"
                               type="checkbox"
                               id="inlineCheckbox3"
-                              defaultValue="option3"
+                              //defaultValue="option3"
+                              value="Three"
                               {...register("Category", {
                                 required: true,
                               })}
@@ -279,7 +282,7 @@ const Add = () => {
                             </label>
                           </div>
                         </Form.Group>
-                        <Form.Group className={styles.form_group}>
+                        <Form.Group className={`${styles.form_group} mt2`}>
                           <Form.Label
                             className={styles.label_inner}
                             htmlFor="number"
@@ -326,7 +329,7 @@ const Add = () => {
                             This field is required
                           </p>
                         )}
-                        <Form.Group className={styles.form_group}>
+                        <Form.Group className={`${styles.form_group} pt-3`}>
                           <Form.Label className={styles.label_inner}>
                             Office Address
                           </Form.Label>
@@ -382,7 +385,6 @@ const Add = () => {
                               //className={styles.form_check_input}
                               type="checkbox"
                               id="flexSwitchCheckChecked"
-                              defaultChecked
                               {...register("ActiveStatus", {
                                 required: true,
                               })}

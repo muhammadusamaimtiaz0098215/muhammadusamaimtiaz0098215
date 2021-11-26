@@ -48,7 +48,8 @@ const Login = () => {
               <Form.Group className={styles.form_group}>
                 {/* <label htmlFor="inputPassword">Password</label> */}
                 <div className="row">
-                  <div className="col-11">
+                  {/* className="col-11" */}
+                  <div className={`${styles.hidedivset} col-11`}>
                     <Form.Control
                       type="password"
                       {...register("Password", {
@@ -66,7 +67,8 @@ const Login = () => {
                       </p>
                     )}
                   </div>
-                  <div className="col-1 pt-4">
+                  {/* className="col-1 pt-4 pd-4" */}
+                  <div className={`${styles.hideimgset} col-1 pt-4 pd-4`}>
                     <Image src={images.hide} height={10} width={16} />
                   </div>
                 </div>
