@@ -3,6 +3,7 @@ import Image from "next/image";
 import images from "../../public/assets/images/index";
 import image from "next/image";
 import { useRouter } from "next/router";
+import { Table } from "react-bootstrap";
 
 const Professionals = () => {
   const router = useRouter();
@@ -17,6 +18,22 @@ const Professionals = () => {
           </a>
         </span>
       </div>
+
+      {/* <Table>
+        <thead>
+          <tr>
+            <th scope="col">Location</th>
+            <th scope="col">City</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Category</th>
+            <th scope="col">Location</th>
+            <th scope="col">Contact</th>
+            <th scope="col">Action</th>{" "}
+          </tr>
+        </thead>
+        <tbody>{<tr></tr>}</tbody>
+      </Table> */}
+
       <table className="table table-striped">
         <thead>
           <tr>

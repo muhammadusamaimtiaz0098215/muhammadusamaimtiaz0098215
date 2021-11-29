@@ -1,22 +1,33 @@
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import styles from "../../styles/ComponentStyles/admin/Add.module.scss";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useEffect } from "react";
-import { CityAPI } from "../../pages/api/apiCalls";
+import { useEffect, useState } from "react";
+import { AreaAPI, CategoryAPI, CityAPI } from "../../pages/api/apiCalls";
+import Chips from "react-chips";
 
 const Add = () => {
-  let city_ID = "";
+  const [cities, setCities] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedcity, setSelectedcity] = useState(0);
+
+  const [selectedcategory, setSelectedcategory] = useState([]);
+
   useEffect(() => {
     CityAPI().then((res) => {
-      console.log(res.data[0].name);
-      let len = res.data.length;
-      city_ID = res.data;
-
-      console.log(city_ID[2]);
+      setCities(res.data);
     });
-  });
+
+    AreaAPI(selectedcity).then((res) => {
+      setAreas(res.data);
+    });
+
+    CategoryAPI().then((res) => {
+      setCategories(res.data);
+    });
+  }, [selectedcity]);
 
   const router = useRouter();
   const {
@@ -28,6 +39,58 @@ const Add = () => {
   const onsubmit = (data) => {
     console.log(data);
     console.log(errors);
+
+    router.push("/admin/professionals");
+  };
+
+  const selectcity = () => {
+    let items = [];
+    for (let i = 0; i <= cities.length; i++) {
+      items.push(
+        <option key={cities[i]?.id} value={cities[i]?.id}>
+          {cities[i]?.name}
+        </option>
+      );
+    }
+    return items;
+  };
+
+  const selectarea = () => {
+    let areas_arr = [];
+    for (let i = 0; i <= areas.length; i++) {
+      areas_arr.push(
+        <option key={areas[i]?.id} value={areas[i]?.name}>
+          {areas[i]?.name}
+        </option>
+      );
+    }
+    return areas_arr;
+  };
+
+  const selectcategory = () => {
+    let category_arr = [];
+    for (let i = 0; i <= categories.length; i++) {
+      category_arr.push(
+        <option key={categories[i]?.id} value={categories[i]?.name}>
+          {categories[i]?.name}
+        </option>
+      );
+    }
+
+    return category_arr;
+  };
+
+  const AreaIdHandler = (e) => {
+    setSelectedcity(e.target.value);
+  };
+
+  const selectcategorychange = (e) => {
+    setSelectedcategory([...selectedcategory, e.target.value]);
+  };
+  const categoryIterator = () => {
+    for (let i = 0; i <= selectedcategory.length; i++) {
+      return <>{selectedcategory}</>;
+    }
   };
 
   return (
@@ -52,7 +115,7 @@ const Add = () => {
                             Name
                           </Form.Label>
                           <Form.Control
-                            {...register("Name", {
+                            {...register("name", {
                               required: true,
                               minLength: 3,
                               maxLength: 32,
@@ -71,7 +134,7 @@ const Add = () => {
                             Username
                           </Form.Label>
                           <Form.Control
-                            {...register("Username", {
+                            {...register("username", {
                               required: true,
                               minLength: 3,
                               maxLength: 32,
@@ -91,7 +154,7 @@ const Add = () => {
                             Email Address
                           </Form.Label>
                           <Form.Control
-                            {...register("Email", {
+                            {...register("email", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -109,14 +172,15 @@ const Add = () => {
                           <Form.Label className={styles.label_inner}>
                             City
                           </Form.Label>
+
                           <Form.Select
-                            {...register("City", {
+                            id="areacheck"
+                            {...register("city", {
                               required: true,
                             })}
+                            onChange={(e) => AreaIdHandler(e)}
                           >
-                            <option>Please select your City</option>
-                            <option value="Lahore">Lahore</option>
-                            <option value="Karachi">Karachi</option>
+                            {selectcity()}
                           </Form.Select>
                         </Form.Group>
                         {errors?.City?.type === "required" && (
@@ -129,14 +193,12 @@ const Add = () => {
                             Area
                           </Form.Label>
                           <Form.Select
-                            {...register("Area", {
+                            {...register("area", {
                               required: true,
                             })}
                             aria-label="Default select example"
                           >
-                            <option>Please Select Your Area from here</option>
-                            <option>abc</option>
-                            <option>abcd</option>
+                            {selectarea()}
                           </Form.Select>
                         </Form.Group>
                         {errors?.Area?.type === "required" && (
@@ -149,7 +211,7 @@ const Add = () => {
                             Geo Codes
                           </Form.Label>
                           <Form.Control
-                            {...register("GeoCodes", {
+                            {...register("geocodes", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -167,7 +229,7 @@ const Add = () => {
                             Description
                           </Form.Label>
                           <Form.Control
-                            {...register("Description", {
+                            {...register("description", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -187,7 +249,7 @@ const Add = () => {
                             Display Picture
                           </Form.Label>
                           <Form.Control
-                            {...register("DisplayPicture", {
+                            {...register("displaypicture", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -206,7 +268,7 @@ const Add = () => {
                             Portfolio Pictures
                           </Form.Label>
                           <Form.Control
-                            {...register("PortfolioPicture", {
+                            {...register("portfoliopicture", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -225,76 +287,24 @@ const Add = () => {
                           <Form.Label className={styles.label_inner}>
                             Categories
                           </Form.Label>
-                          <div className="form-check form-check-inline padding-0">
-                            <input
-                              className={styles.category_cbox}
-                              type="checkbox"
-                              id="inlineCheckbox1"
-                              //defaultValue="option1"
-                              value="One"
-                              {...register("Category", {
-                                required: true,
-                              })}
-                            />
-                            {errors?.Category?.type === "required" && (
-                              <p className={styles.Login_p}>
-                                This field is required
-                              </p>
-                            )}
-                            <label
-                              className="form-check-label category-lbl"
-                              htmlFor="inlineCheckbox1"
-                            >
-                              One
-                            </label>
-                          </div>
-                          <div className="form-check form-check-inline">
-                            <input
-                              className="form-check-input category-cbox"
-                              type="checkbox"
-                              id="inlineCheckbox2"
-                              //defaultValue="option2"
-                              value="Two"
-                              {...register("Category", {
-                                required: true,
-                              })}
-                            />
-                            {errors?.Category?.type === "required" && (
-                              <p className={styles.Login_p}>
-                                This field is required
-                              </p>
-                            )}
-                            <label
-                              className="form-check-label category-lbl"
-                              htmlFor="inlineCheckbox2"
-                            >
-                              Two
-                            </label>
-                          </div>
-                          <div className="form-check form-check-inline">
-                            <input
-                              className="form-check-input category-cbox"
-                              type="checkbox"
-                              id="inlineCheckbox3"
-                              //defaultValue="option3"
-                              value="Three"
-                              {...register("Category", {
-                                required: true,
-                              })}
-                            />
-                            {errors?.Category?.type === "required" && (
-                              <p className={styles.Login_p}>
-                                This field is required
-                              </p>
-                            )}
-                            <label
-                              className="form-check-label category-lbl"
-                              htmlFor="inlineCheckbox3"
-                            >
-                              Three
-                            </label>
-                          </div>
+                          <Form.Select
+                            {...register("category", {
+                              required: true,
+                            })}
+                            onChange={(e) => selectcategorychange(e)}
+                          >
+                            {selectcategory()}
+                          </Form.Select>
                         </Form.Group>
+                        {
+                          (categoryIterator(),
+                          selectedcategory === [] ? null : (
+                            <Chips
+                              className={styles.chipsdiv}
+                              value={selectedcategory}
+                            ></Chips>
+                          ))
+                        }
                         <Form.Group className={`${styles.form_group} mt2`}>
                           <Form.Label
                             className={styles.label_inner}
@@ -322,7 +332,7 @@ const Add = () => {
                             Additional Areas
                           </Form.Label>
                           <Form.Control
-                            {...register("AdditionalAreas", {
+                            {...register("additionalareas", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -347,7 +357,7 @@ const Add = () => {
                             Office Address
                           </Form.Label>
                           <Form.Control
-                            {...register("OfficeAddress", {
+                            {...register("officeaddress", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -367,7 +377,7 @@ const Add = () => {
                             Secondary Address
                           </Form.Label>
                           <Form.Control
-                            {...register("SecondaryAddress", {
+                            {...register("secondaryaddress", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -398,7 +408,7 @@ const Add = () => {
                               //className={styles.form_check_input}
                               type="checkbox"
                               id="flexSwitchCheckChecked"
-                              {...register("ActiveStatus", {
+                              {...register("activestatus", {
                                 required: true,
                               })}
                             />
@@ -421,7 +431,7 @@ const Add = () => {
                             Contact
                           </Form.Label>
                           <Form.Control
-                            {...register("Contact", {
+                            {...register("contact", {
                               required: true,
                               maxLength: 32,
                             })}
@@ -440,14 +450,7 @@ const Add = () => {
                           type="submit"
                           className={(styles.btn, styles.btn_red)}
                         >
-                          <a
-                            onClick={() => {
-                              router.push("/admin/add");
-                            }}
-                          >
-                            {" "}
-                            Add Professional{" "}
-                          </a>
+                          <a> Add Professional </a>
                         </Button>
                       </div>
                     </Form>
