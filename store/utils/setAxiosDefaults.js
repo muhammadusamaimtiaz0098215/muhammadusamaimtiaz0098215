@@ -1,6 +1,6 @@
 import axios from "axios";
 import router from "next/router";
-import NProgress from 'nprogress';
+import NProgress from "nprogress";
 import Cookies from "js-cookie";
 
 import getConfig from "next/config";
@@ -21,7 +21,7 @@ const setAxiosDefaults = () => {
     (response) => {
       NProgress.done();
       return response;
-    } ,
+    },
     (error) => {
       NProgress.done();
       if (error.response && error.response.status === 401) {
@@ -33,7 +33,7 @@ const setAxiosDefaults = () => {
         error.response.data = {
           Session: "Expired!",
         };
-        router.push("/signin?auth_faild=true");
+        // router.push("/signin?auth_faild=true");
       } else if (error.response && error.response.status === 409) {
         router.push("/subscription?sub_required=true");
       } else {

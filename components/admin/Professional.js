@@ -4,8 +4,30 @@ import images from "../../public/assets/images/index";
 import image from "next/image";
 import { useRouter } from "next/router";
 import { Table } from "react-bootstrap";
+import withAuth from "../auth/withAuth";
+import { useEffect, useState } from "react";
+import { Get_Profesionals } from "../../pages/api/apiCalls";
+import StarRatings from "react-star-ratings";
 
 const Professionals = () => {
+  const [professional, setProfessional] = useState([]);
+
+  useEffect(() => {
+    Get_Profesionals().then((res) => {
+      console.log("HERE:", res.data);
+      const data = res.data;
+      setProfessional(res.data);
+    });
+  }, []);
+
+  const rating_check = () => {
+    console.log("Rating check", professional);
+    // professional.map((p) => {
+    //   console.log(".......", p?.average_rating);
+    // });
+    console.log("Rating", professional?.average_rating);
+  };
+
   const router = useRouter();
 
   return (
@@ -19,194 +41,47 @@ const Professionals = () => {
         </span>
       </div>
 
-      {/* <Table>
+      <Table striped bordered hover>
         <thead>
           <tr>
-            <th scope="col">Location</th>
-            <th scope="col">City</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Category</th>
-            <th scope="col">Location</th>
-            <th scope="col">Contact</th>
-            <th scope="col">Action</th>{" "}
-          </tr>
-        </thead>
-        <tbody>{<tr></tr>}</tbody>
-      </Table> */}
-
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th className="pl-30" scope="col">
-              Professional
-            </th>
-            <th scope="col">Location</th>
-            <th scope="col">City</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Category</th>
-            <th scope="col">Location</th>
-            <th scope="col">Contact</th>
-            <th scope="col">Action</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>City</th>
+            <th>Rating</th>
+            <th>Avg Task Time</th>
+            <th>Completed Task Count</th>
+            <th>Status</th>{" "}
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th className="pl-30" scope="row">
-              <Image className="mic-icon" src={images.mic} alt="mic" />
-              <span className="img-span">
-                <Image src={images.professional} alt="pro" />
-              </span>
-              Uzair Services
-            </th>
-            <td>New Garden Town</td>
-            <td>Lahore</td>
-            <td>
-              <Image src={images.rating} alt="rating" />
-            </td>
-            <td>Plumbing</td>
-            <td>Bahria Town, Islamabad</td>
-            <td>+92 300 xxxxxxx</td>
-            <td>
-              <Image className="phone-icon" src={images.phone} alt="phone" />
-            </td>
-          </tr>
-          <tr>
-            <th className="pl-30" scope="row">
-              <span className="img-span">
-                <Image src={images.professional} alt="pro" />
-              </span>
-              Uzair Services
-            </th>
-            <td>New Garden Town</td>
-            <td>Lahore</td>
-            <td>
-              <Image src={images.rating} alt="rating" />
-            </td>
-            <td>Plumbing</td>
-            <td>Bahria Town, Islamabad</td>
-            <td>+92 300 xxxxxxx</td>
-            <td>
-              <Image className="phone-icon" src={images.phone} alt="phone" />
-            </td>
-          </tr>
-          <tr>
-            <th className="pl-30" scope="row">
-              <span className="img-span">
-                <Image src={images.professional} alt="pro" />
-              </span>
-              Uzair Services
-            </th>
-            <td>New Garden Town</td>
-            <td>Lahore</td>
-            <td>
-              <Image src={images.rating} alt="rating" />
-            </td>
-            <td>Plumbing</td>
-            <td>Bahria Town, Islamabad</td>
-            <td>+92 300 xxxxxxx</td>
-            <td>
-              <Image className="phone-icon" src={images.phone} alt="phone" />
-            </td>
-          </tr>
-          <tr>
-            <th className="pl-30" scope="row">
-              <span className="img-span">
-                <Image src={images.professional} alt="pro" />
-              </span>
-              Uzair Services
-            </th>
-            <td>New Garden Town</td>
-            <td>Lahore</td>
-            <td>
-              <Image src={images.rating} alt="rating" />
-            </td>
-            <td>Plumbing</td>
-            <td>Bahria Town, Islamabad</td>
-            <td>+92 300 xxxxxxx</td>
-            <td>
-              <Image className="phone-icon" src={images.phone} alt="phone" />
-            </td>
-          </tr>
-          <tr>
-            <th className="pl-30" scope="row">
-              <span className="img-span">
-                <Image src={images.professional} alt="pro" />
-              </span>
-              Uzair Services
-            </th>
-            <td>New Garden Town</td>
-            <td>Lahore</td>
-            <td>
-              <Image src={images.rating} alt="rating" />
-            </td>
-            <td>Plumbing</td>
-            <td>Bahria Town, Islamabad</td>
-            <td>+92 300 xxxxxxx</td>
-            <td>
-              <Image className="phone-icon" src={images.phone} alt="phone" />
-            </td>
-          </tr>
-          <tr>
-            <th className="pl-30" scope="row">
-              <span className="img-span">
-                <Image src={images.professional} alt="pro" />
-              </span>
-              Uzair Services
-            </th>
-            <td>New Garden Town</td>
-            <td>Lahore</td>
-            <td>
-              <Image src={images.rating} alt="rating" />
-            </td>
-            <td>Plumbing</td>
-            <td>Bahria Town, Islamabad</td>
-            <td>+92 300 xxxxxxx</td>
-            <td>
-              <Image className="phone-icon" src={images.phone} alt="phone" />
-            </td>
-          </tr>
-          <tr>
-            <th className="pl-30" scope="row">
-              <span className="img-span">
-                <Image src={images.professional} alt="pro" />
-              </span>
-              Uzair Services
-            </th>
-            <td>New Garden Town</td>
-            <td>Lahore</td>
-            <td>
-              <Image src={images.rating} alt="rating" />
-            </td>
-            <td>Plumbing</td>
-            <td>Bahria Town, Islamabad</td>
-            <td>+92 300 xxxxxxx</td>
-            <td>
-              <Image className="phone-icon" src={images.phone} alt="phone" />
-            </td>
-          </tr>
-          <tr>
-            <th className="pl-30" scope="row">
-              <span className="img-span">
-                <Image src={images.professional} alt="pro" />
-              </span>
-              Uzair Services
-            </th>
-            <td>New Garden Town</td>
-            <td>Lahore</td>
-            <td>
-              <Image src={images.rating} alt="rating" />
-            </td>
-            <td>Plumbing</td>
-            <td>Bahria Town, Islamabad</td>
-            <td>+92 300 xxxxxxx</td>
-            <td>
-              <Image className="phone-icon" src={images.phone} alt="phone" />
-            </td>
-          </tr>
+          {professional.map((p) => {
+            return (
+              <tr>
+                <td> {p.name}</td>
+                <td scope="2">
+                  {p.location?.lat} , {p.location?.lang}
+                </td>
+                <td> {p.city}</td>
+
+                <StarRatings
+                  rating={
+                    typeof p.average_rating === "number" ? p.average_rating : 0
+                  }
+                  numberOfStars={5}
+                  starRatedColor={"orange"}
+                  starDimension={"20px"}
+                />
+                <td></td>
+                <td> {p.avg_task_time}</td>
+                <td> {p?.completed_task_count}</td>
+                <td> {p.active}</td>
+              </tr>
+            );
+          })}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };
 
-export default Professionals;
+export default withAuth(Professionals);

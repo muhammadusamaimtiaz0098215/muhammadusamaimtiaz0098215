@@ -4,8 +4,14 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AreaAPI, CategoryAPI, CityAPI } from "../../pages/api/apiCalls";
-import Chips from "react-chips";
+import {
+  Add_professionalsAPI,
+  AreaAPI,
+  CategoryAPI,
+  CityAPI,
+} from "../../pages/api/apiCalls";
+import Select from "react-select";
+import withAuth from "../auth/withAuth";
 
 const Add = () => {
   const [cities, setCities] = useState([]);
@@ -13,11 +19,14 @@ const Add = () => {
   const [categories, setCategories] = useState([]);
   const [selectedcity, setSelectedcity] = useState(0);
 
+  const [test, setTest] = useState([]);
+
   const [selectedcategory, setSelectedcategory] = useState([]);
 
   useEffect(() => {
     CityAPI().then((res) => {
       setCities(res.data);
+      console.log(res.data);
     });
 
     AreaAPI(selectedcity).then((res) => {
@@ -37,46 +46,52 @@ const Add = () => {
   } = useForm();
 
   const onsubmit = (data) => {
-    console.log(data);
+    console.log("HERE:", data);
     console.log(errors);
 
-    router.push("/admin/professionals");
+    try {
+      Add_professionalsAPI(data);
+      // router.push("/admin/p");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const selectcity = () => {
     let items = [];
-    for (let i = 0; i <= cities.length; i++) {
+    cities.map((c) =>
       items.push(
-        <option key={cities[i]?.id} value={cities[i]?.id}>
-          {cities[i]?.name}
+        <option key={c?.id} value={c?.id} name={c?.name}>
+          {c?.name}
         </option>
-      );
-    }
+      )
+    );
+
     return items;
   };
 
   const selectarea = () => {
     let areas_arr = [];
-    for (let i = 0; i <= areas.length; i++) {
+    areas.map((a) =>
       areas_arr.push(
-        <option key={areas[i]?.id} value={areas[i]?.name}>
-          {areas[i]?.name}
+        <option key={a?.id} value={a?.name}>
+          {a?.name}
         </option>
-      );
-    }
+      )
+    );
     return areas_arr;
   };
 
+  //console.log(selectedcategory);
   const selectcategory = () => {
     let category_arr = [];
-    for (let i = 0; i <= categories.length; i++) {
+    categories.map((c) =>
       category_arr.push(
-        <option key={categories[i]?.id} value={categories[i]?.name}>
-          {categories[i]?.name}
+        <option key={c?.id} value={c?.name}>
+          {c?.name}
         </option>
-      );
-    }
-
+      )
+    );
     return category_arr;
   };
 
@@ -86,13 +101,13 @@ const Add = () => {
 
   const selectcategorychange = (e) => {
     setSelectedcategory([...selectedcategory, e.target.value]);
-  };
-  const categoryIterator = () => {
-    for (let i = 0; i <= selectedcategory.length; i++) {
-      return <>{selectedcategory}</>;
-    }
+    setTest([...selectedcategory, e.target.value]);
   };
 
+  const clickcheck = (e) => {
+    const myobj = document.getElementById("demo");
+    myobj.remove();
+  };
   return (
     <div>
       <div className={styles.professional_table}>
@@ -116,7 +131,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("name", {
-                              required: true,
+                              // required: true,
                               minLength: 3,
                               maxLength: 32,
                             })}
@@ -135,7 +150,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("username", {
-                              required: true,
+                              // required: true,
                               minLength: 3,
                               maxLength: 32,
                             })}
@@ -155,7 +170,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("email", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -176,7 +191,7 @@ const Add = () => {
                           <Form.Select
                             id="areacheck"
                             {...register("city", {
-                              required: true,
+                              // required: true,
                             })}
                             onChange={(e) => AreaIdHandler(e)}
                           >
@@ -194,7 +209,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Select
                             {...register("area", {
-                              required: true,
+                              // required: true,
                             })}
                             aria-label="Default select example"
                           >
@@ -212,7 +227,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("geocodes", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -230,7 +245,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("description", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -250,7 +265,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("displaypicture", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -269,7 +284,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("portfoliopicture", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -283,29 +298,35 @@ const Add = () => {
                             This field is required
                           </p>
                         )}
-                        <Form.Group className={styles.form_group}>
+                        <Form.Group
+                          className={`${styles.form_group} mb-0 pb-3`}
+                        >
                           <Form.Label className={styles.label_inner}>
                             Categories
                           </Form.Label>
                           <Form.Select
                             {...register("category", {
-                              required: true,
+                              // required: true,
                             })}
                             onChange={(e) => selectcategorychange(e)}
                           >
                             {selectcategory()}
                           </Form.Select>
                         </Form.Group>
-                        {
-                          (categoryIterator(),
-                          selectedcategory === [] ? null : (
-                            <Chips
-                              className={styles.chipsdiv}
-                              value={selectedcategory}
-                            ></Chips>
-                          ))
-                        }
-                        <Form.Group className={`${styles.form_group} mt2`}>
+                        {selectedcategory.map((cat) => (
+                          <div className={`${styles.categoty_tags} `} id="demo">
+                            {cat}
+                            <span
+                              className="icon-close"
+                              onClick={(e) => {
+                                clickcheck(e.target.value);
+                              }}
+                            >
+                              x
+                            </span>
+                          </div>
+                        ))}
+                        <Form.Group className={`${styles.form_group} mt-3`}>
                           <Form.Label
                             className={styles.label_inner}
                             htmlFor="number"
@@ -314,7 +335,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("CNIC", {
-                              required: true,
+                              // required: true,
                               maxLength: 13,
                             })}
                             className={styles.form_control}
@@ -333,7 +354,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("additionalareas", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -358,7 +379,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("officeaddress", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -378,7 +399,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("secondaryaddress", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -409,7 +430,7 @@ const Add = () => {
                               type="checkbox"
                               id="flexSwitchCheckChecked"
                               {...register("activestatus", {
-                                required: true,
+                                // required: true,
                               })}
                             />
                           </Form.Switch>
@@ -432,7 +453,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("contact", {
-                              required: true,
+                              // required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -465,4 +486,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default withAuth(Add);

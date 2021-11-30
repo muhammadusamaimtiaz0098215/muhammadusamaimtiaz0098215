@@ -237,6 +237,24 @@
     cursor: pointer;
   }
 }
+.categoty_tags {
+  border-radius: 4px;
+  background-color: #ff4148;
+  font-size: 12px;
+  padding: 4px 8px;
+  margin: 4px 8px;
+  color: #fff;
+  left: 151px;
+  top: 27px;
+  width: 30%;
+  //position: absolute;
+  span {
+    padding-left: 7px;
+    font-weight: 600;
+    cursor: pointer;
+    float: right;
+  }
+}
 
 .professional_table {
   padding-left: 220px;

@@ -22,13 +22,14 @@ const Login = () => {
   } = useForm();
 
   const onsubmit = (data) => {
-    LoginAPI(data)
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem("token", res.data);
-      })
-      .catch(console.log("error"));
-    router.push("/");
+    LoginAPI(data).then((res) => {
+      if (res.status === 200) {
+        router.push("/admin/professionals");
+        localStorage.setItem("token", res.data.token);
+      } else {
+        alert(res);
+      }
+    });
   };
 
   return (

@@ -3,17 +3,10 @@ import axios from "axios";
 
 export const LoginAPI = (userData) => {
   const { email, password } = userData;
-  // return axios.post(`${env.BaseURL}/api/v1/auth/login`, {
-  //   email: userData.email,
-  //   password: userData.password,
-  // });
-  const res = axios.post(
-    "https://887f-103-159-79-148.ngrok.io/api/v1/auth/login",
-    {
-      email,
-      password,
-    }
-  );
+  const res = axios.post(`${env.BaseURL}/api/v1/auth/login`, {
+    email: email,
+    password: password,
+  });
   console.log(res);
   return res;
 };
@@ -30,5 +23,40 @@ export const AreaAPI = (data) => {
 
 export const CategoryAPI = () => {
   const res = axios(`${env.CategoryURL}`);
+  return res;
+};
+
+export const Add_professionalsAPI = (data) => {
+  const { name, username, email, category, geocodes, city, area } = data;
+
+  const res = axios.post(
+    `${env.BaseURL}/api/v1/professionals/create`,
+    {
+      name: name,
+      username: username,
+      email: email,
+      categories: category,
+      location: geocodes,
+      city: city,
+      area: area,
+    },
+    {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjM4MjUyNzg2fQ.iGZ3umwYrYc2bvW4m3TuWkeetWiEc8W_RCPgNC-6tQk`,
+      },
+    }
+  );
+
+  console.log(res);
+  return res;
+};
+
+export const Get_Profesionals = () => {
+  const res = axios.post(`${env.BaseURL}/api/v1/professionals/filter?page=1`, {
+    professionalName: null,
+    categoryId: null,
+    rating: null,
+    completedTask: null,
+  });
   return res;
 };
