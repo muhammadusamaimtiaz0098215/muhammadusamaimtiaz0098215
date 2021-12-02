@@ -12,6 +12,7 @@ import {
 } from "../../pages/api/apiCalls";
 import Select from "react-select";
 import withAuth from "../auth/withAuth";
+import Chips, { Chip } from "react-chips";
 
 const Add = () => {
   const [cities, setCities] = useState([]);
@@ -26,7 +27,7 @@ const Add = () => {
   useEffect(() => {
     CityAPI().then((res) => {
       setCities(res.data);
-      console.log(res.data);
+      //console.log(res.data);
     });
 
     AreaAPI(selectedcity).then((res) => {
@@ -35,8 +36,9 @@ const Add = () => {
 
     CategoryAPI().then((res) => {
       setCategories(res.data);
+      //console.log(res.data);
     });
-  }, [selectedcity]);
+  }, [selectedcity, selectedcategory, test]);
 
   const router = useRouter();
   const {
@@ -44,18 +46,6 @@ const Add = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const onsubmit = (data) => {
-    console.log("HERE:", data);
-    console.log(errors);
-
-    try {
-      Add_professionalsAPI(data);
-      // router.push("/admin/p");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const selectcity = () => {
     let items = [];
@@ -82,12 +72,11 @@ const Add = () => {
     return areas_arr;
   };
 
-  //console.log(selectedcategory);
   const selectcategory = () => {
     let category_arr = [];
     categories.map((c) =>
       category_arr.push(
-        <option key={c?.id} value={c?.name}>
+        <option key={c?.id} value={c?.id}>
           {c?.name}
         </option>
       )
@@ -98,16 +87,38 @@ const Add = () => {
   const AreaIdHandler = (e) => {
     setSelectedcity(e.target.value);
   };
-
+  let data11 = selectcategory();
   const selectcategorychange = (e) => {
+    data11.map((x) => {
+      x.props.value == e.target.value
+        ? setSelectedcategory([...selectedcategory, x.props.children])
+        : null;
+    });
     setSelectedcategory([...selectedcategory, e.target.value]);
     setTest([...selectedcategory, e.target.value]);
   };
 
   const clickcheck = (e) => {
     const myobj = document.getElementById("demo");
-    myobj.remove();
+    //myobj.remove();
+    myobj.parentNode.removeChild(myobj);
   };
+
+  const onsubmit = (data) => {
+    data.category = test;
+    console.log("CHECK TEST", data);
+    cities.map((c) => {
+      data.city == c.id ? (data.city = c.name) : null;
+    });
+
+    try {
+      Add_professionalsAPI(data);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(data);
+  };
+
   return (
     <div>
       <div className={styles.professional_table}>
@@ -313,6 +324,9 @@ const Add = () => {
                             {selectcategory()}
                           </Form.Select>
                         </Form.Group>
+                        {/* <div>
+                          <Chips value={selectedcategory} />
+                        </div> */}
                         {selectedcategory.map((cat) => (
                           <div className={`${styles.categoty_tags} `} id="demo">
                             {cat}
