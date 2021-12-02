@@ -76,7 +76,7 @@ const Add = () => {
     let category_arr = [];
     categories.map((c) =>
       category_arr.push(
-        <option key={c?.id} value={c?.id}>
+        <option key={c.id} value={c?.id}>
           {c?.name}
         </option>
       )
@@ -94,19 +94,17 @@ const Add = () => {
         ? setSelectedcategory([...selectedcategory, x.props.children])
         : null;
     });
-    setSelectedcategory([...selectedcategory, e.target.value]);
+
+    //setSelectedcategory([...selectedcategory, e.target.value]);
     setTest([...selectedcategory, e.target.value]);
   };
-
-  const clickcheck = (e) => {
-    const myobj = document.getElementById("demo");
-    //myobj.remove();
-    myobj.parentNode.removeChild(myobj);
+  const clickcheck = (category) => {
+    let s = selectedcategory.filter((item) => item !== category);
+    setSelectedcategory([...s]);
   };
 
   const onsubmit = (data) => {
-    data.category = test;
-    console.log("CHECK TEST", data);
+    data.category = selectedcategory;
     cities.map((c) => {
       data.city == c.id ? (data.city = c.name) : null;
     });
@@ -206,6 +204,7 @@ const Add = () => {
                             })}
                             onChange={(e) => AreaIdHandler(e)}
                           >
+                            <option value="">Please Select your City</option>
                             {selectcity()}
                           </Form.Select>
                         </Form.Group>
@@ -224,6 +223,9 @@ const Add = () => {
                             })}
                             aria-label="Default select example"
                           >
+                            <option value="">
+                              Please Select your City First for Area Options
+                            </option>
                             {selectarea()}
                           </Form.Select>
                         </Form.Group>
@@ -321,6 +323,9 @@ const Add = () => {
                             })}
                             onChange={(e) => selectcategorychange(e)}
                           >
+                            <option value="">
+                              Please Select your Category
+                            </option>
                             {selectcategory()}
                           </Form.Select>
                         </Form.Group>
@@ -328,16 +333,21 @@ const Add = () => {
                           <Chips value={selectedcategory} />
                         </div> */}
                         {selectedcategory.map((cat) => (
-                          <div className={`${styles.categoty_tags} `} id="demo">
-                            {cat}
-                            <span
-                              className="icon-close"
-                              onClick={(e) => {
-                                clickcheck(e.target.value);
-                              }}
+                          <div className={styles.categories_maindiv}>
+                            <div
+                              className={`${styles.categoty_tags} `}
+                              id="demo"
                             >
-                              x
-                            </span>
+                              {cat}
+                              <span
+                                className="icon-close"
+                                onClick={() => {
+                                  clickcheck(cat);
+                                }}
+                              >
+                                x
+                              </span>
+                            </div>
                           </div>
                         ))}
                         <Form.Group className={`${styles.form_group} mt-3`}>

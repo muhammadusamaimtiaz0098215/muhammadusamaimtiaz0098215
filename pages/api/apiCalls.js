@@ -27,6 +27,7 @@ export const CategoryAPI = () => {
 };
 // http://5ee7-103-159-79-148.ngrok.io/
 //${env.BaseURL}/api/v1/professionals/create
+//const token = localStorage.getItem("token");
 export const Add_professionalsAPI = (data) => {
   const {
     name,

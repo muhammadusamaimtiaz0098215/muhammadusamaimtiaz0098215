@@ -196,5 +196,31 @@
     background-color: #f7fafc;
   }
 }
+.paginateDiv {
+  display: flex;
+  .paginateComponent {
+    display: flex;
+    align-items: center;
+    //padding-left: 38%;
+    width: auto;
+    margin: auto;
+    .page_item {
+      list-style: none;
 
+      .page_link {
+        //background-color: #e85451;
+        color: #ff4148;
+        margin-left: 2px;
+        border: 1px solid #e85451;
+        border-radius: 10px;
+      }
+    }
+    .page_item.page_active .page_link {
+      background-color: white;
+      border: 3px solid #e85451;
+      color: #ff4148;
+      margin-left: 2px;
+    }
+  }
+}
 //Add professional starts here
