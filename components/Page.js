@@ -47,7 +47,7 @@ const Page = ({ router, children }) => {
               </a>
               <a
                 className="g-cursor-pointer"
-                onClick={() => route.push("/admin/add")}
+                onClick={() => route.push("/admin/professionals")}
               >
                 <span>
                   <Image

@@ -29,38 +29,48 @@ export const CategoryAPI = () => {
 //${env.BaseURL}/api/v1/professionals/create
 //const token = localStorage.getItem("token");
 export const Add_professionalsAPI = (data) => {
-  const {
-    name,
-    username,
-    email,
-    category,
-    geocodes,
-    city,
-    area,
-    displaypicture,
-    portfoliopicture,
-  } = data;
-  const len = category.length;
+  // const {
+  //   name,
+  //   username,
+  //   email,
+  //   category,
+  //   geocodes,
+  //   city,
+  //   area,
+  //   displaypicture,
+  //   portfoliopicture,
+  // } = data;
+  // console.log("Getting form data", data.get("name"));
+
+  console.log("Display pic at api calls", data.get("category"));
+
+  let str_arr = data.get("category");
+  let arr = str_arr.split(",");
+  console.log("getting ARR", arr);
+  data.set("category", arr);
+
   const res = axios.post(
     `${env.BaseURL}/api/v1/professionals/create`,
-    {
-      name: name,
-      username: username,
-      email: email,
-      categories: category,
-      location: geocodes,
-      city: city,
-      area: area,
-      file: displaypicture,
-    },
+    data,
+    // {
+    //   name: data.get("name"),
+    //   username: data.get("username"),
+    //   email: data.get("email"),
+    //   categories: arr,
+    //   location: data.get("geocodes"),
+    //   city: data.get("city"),
+    //   area: data.get("area"),
+    //   photo: { uri: "" },
+    // },
 
     {
+      // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjM4MjUyNzg2fQ.iGZ3umwYrYc2bvW4m3TuWkeetWiEc8W_RCPgNC-6tQk
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjM4MjUyNzg2fQ.iGZ3umwYrYc2bvW4m3TuWkeetWiEc8W_RCPgNC-6tQk`,
       },
     }
   );
-
+  console.log("Display pic at api calls", data.get("category"));
   return res;
 };
 

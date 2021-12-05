@@ -10,9 +10,7 @@ import {
   CategoryAPI,
   CityAPI,
 } from "../../pages/api/apiCalls";
-import Select from "react-select";
 import withAuth from "../auth/withAuth";
-import Chips, { Chip } from "react-chips";
 
 const Add = () => {
   const [cities, setCities] = useState([]);
@@ -20,9 +18,15 @@ const Add = () => {
   const [categories, setCategories] = useState([]);
   const [selectedcity, setSelectedcity] = useState(0);
 
+  const [categoryId, setCategoryId] = useState([]);
+
+  const [newCategoryId, setNewCategoryId] = useState([]);
+
   const [test, setTest] = useState([]);
 
   const [selectedcategory, setSelectedcategory] = useState([]);
+
+  const [displayPicState, setDisplayPicState] = useState({});
 
   useEffect(() => {
     CityAPI().then((res) => {
@@ -84,6 +88,16 @@ const Add = () => {
     return category_arr;
   };
 
+  const categoryIdConverter = () => {
+    let empty = [];
+    categories.map((xx) => {
+      empty.push(xx.name, xx.id);
+    });
+    console.log("mmmmmmmmmmmm", empty);
+    setCategoryId(empty);
+    return empty;
+  };
+
   const AreaIdHandler = (e) => {
     setSelectedcity(e.target.value);
   };
@@ -94,8 +108,6 @@ const Add = () => {
         ? setSelectedcategory([...selectedcategory, x.props.children])
         : null;
     });
-
-    //setSelectedcategory([...selectedcategory, e.target.value]);
     setTest([...selectedcategory, e.target.value]);
   };
   const clickcheck = (category) => {
@@ -103,17 +115,59 @@ const Add = () => {
     setSelectedcategory([...s]);
   };
 
+  const ondisplaypichange = (e) => {
+    let files = e.target.files[0];
+
+    setDisplayPicState(files);
+
+    console.log("CHECKING FILES", files);
+  };
+
   const onsubmit = (data) => {
-    data.category = selectedcategory;
+    let emptyid = [];
+    let foo = categoryIdConverter();
+
+    console.log("ccccccccccccc", foo);
+
+    console.log("Data Category 11111", selectedcategory);
+
+    selectedcategory.map((m) => {
+      console.log("ccccccccccccc", m);
+      foo.map((f, index) => {
+        m == f ? emptyid.push(foo[index + 1]) : null;
+      });
+    });
+
+    console.log("Data Category 222222", emptyid);
+    data.category = JSON.stringify(emptyid);
+
+    //setDisplayPicState(data.displaypicture[0]);
+
     cities.map((c) => {
       data.city == c.id ? (data.city = c.name) : null;
     });
 
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("username", data.username);
+    formData.append("email", data.email);
+    formData.append("category", data.category);
+    formData.append("geocodes", data.geocodes);
+    formData.append("city", data.city);
+    formData.append("area", data.area);
+    formData.append("photo", displayPicState);
+
+    console.log("Getting form data", formData.get("displaypicture"));
+    console.log("Getting form data state", displayPicState);
+
     try {
-      Add_professionalsAPI(data);
+      Add_professionalsAPI(formData);
     } catch (error) {
       console.log(error);
     }
+
+    console.log("PIC STATE", displayPicState);
     console.log(data);
   };
 
@@ -281,9 +335,13 @@ const Add = () => {
                               // required: true,
                               maxLength: 32,
                             })}
+                            multiple
                             className={styles.form_control}
                             type="file"
                             id="formFile"
+                            onChange={(e) => {
+                              ondisplaypichange(e);
+                            }}
                           />
                         </Form.Group>
                         {errors?.DisplayPicture?.type === "required" && (
