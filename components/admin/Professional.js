@@ -1,7 +1,4 @@
 import styles from "../../styles/ComponentStyles/admin/Professional.module.scss";
-import Image from "next/image";
-import images from "../../public/assets/images/index";
-import image from "next/image";
 import { useRouter } from "next/router";
 import { Table } from "react-bootstrap";
 import withAuth from "../auth/withAuth";

@@ -20,8 +20,6 @@ const Add = () => {
 
   const [categoryId, setCategoryId] = useState([]);
 
-  const [newCategoryId, setNewCategoryId] = useState([]);
-
   const [test, setTest] = useState([]);
 
   const [selectedcategory, setSelectedcategory] = useState([]);
@@ -31,7 +29,6 @@ const Add = () => {
   useEffect(() => {
     CityAPI().then((res) => {
       setCities(res.data);
-      //console.log(res.data);
     });
 
     AreaAPI(selectedcity).then((res) => {
@@ -40,7 +37,6 @@ const Add = () => {
 
     CategoryAPI().then((res) => {
       setCategories(res.data);
-      //console.log(res.data);
     });
   }, [selectedcity, selectedcategory, test]);
 
@@ -93,7 +89,6 @@ const Add = () => {
     categories.map((xx) => {
       empty.push(xx.name, xx.id);
     });
-    console.log("mmmmmmmmmmmm", empty);
     setCategoryId(empty);
     return empty;
   };
@@ -119,56 +114,48 @@ const Add = () => {
     let files = e.target.files[0];
 
     setDisplayPicState(files);
-
-    console.log("CHECKING FILES", files);
   };
 
-  const onsubmit = (data) => {
-    let emptyid = [];
-    let foo = categoryIdConverter();
-
-    console.log("ccccccccccccc", foo);
-
-    console.log("Data Category 11111", selectedcategory);
-
-    selectedcategory.map((m) => {
-      console.log("ccccccccccccc", m);
-      foo.map((f, index) => {
-        m == f ? emptyid.push(foo[index + 1]) : null;
-      });
-    });
-
-    console.log("Data Category 222222", emptyid);
-    data.category = JSON.stringify(emptyid);
-
-    //setDisplayPicState(data.displaypicture[0]);
-
-    cities.map((c) => {
-      data.city == c.id ? (data.city = c.name) : null;
-    });
-
-    const formData = new FormData();
-
-    formData.append("name", data.name);
-    formData.append("username", data.username);
-    formData.append("email", data.email);
-    formData.append("category", data.category);
-    formData.append("geocodes", data.geocodes);
-    formData.append("city", data.city);
-    formData.append("area", data.area);
-    formData.append("photo", displayPicState);
-
-    console.log("Getting form data", formData.get("displaypicture"));
-    console.log("Getting form data state", displayPicState);
-
+  const onSubmit = async (data) => {
     try {
-      Add_professionalsAPI(formData);
+      let emptyid = [];
+      let foo = categoryIdConverter();
+
+      selectedcategory.map((m) => {
+        foo.map((f, index) => {
+          m == f ? emptyid.push(foo[index + 1]) : null;
+        });
+      });
+
+      data.categories = emptyid;
+
+      cities.map((c) => {
+        data.city == c.id ? (data.city = c.name) : null;
+      });
+
+      const body = {
+        ...data,
+        photo: displayPicState,
+      };
+      let formData = new FormData();
+
+      let d = { ...body };
+
+      for (let key in d) {
+        if (key !== "categories") {
+          formData.append(key, d[key]);
+        }
+      }
+      console.log(data);
+      data.categories?.forEach((a, index) => {
+        formData.append(`categories[${index}]`, a);
+      });
+
+      const res = await Add_professionalsAPI(formData);
+      console.log(res);
     } catch (error) {
       console.log(error);
     }
-
-    console.log("PIC STATE", displayPicState);
-    console.log(data);
   };
 
   return (
@@ -184,7 +171,7 @@ const Add = () => {
                 <div className={styles.add_form}>
                   <div className="text-wrapper">
                     <Form
-                      onSubmit={handleSubmit(onsubmit)}
+                      onSubmit={handleSubmit(onSubmit)}
                       className={styles.add_form_fields}
                     >
                       <div className={styles.card_div}>
@@ -376,7 +363,7 @@ const Add = () => {
                             Categories
                           </Form.Label>
                           <Form.Select
-                            {...register("category", {
+                            {...register("categories", {
                               // required: true,
                             })}
                             onChange={(e) => selectcategorychange(e)}
