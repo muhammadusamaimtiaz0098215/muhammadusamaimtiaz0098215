@@ -4,10 +4,11 @@ import NProgress from "nprogress";
 import Router from "next/router";
 import setAxiosDefault from "../store/utils/setAxiosDefaults";
 import NoSSR from "react-no-ssr";
-import { wrapper } from "../store";
 import Page from "../components/Page";
-import Login from "../components/admin/Login";
 import "bootstrap/dist/css/bootstrap.css";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "../store/index";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -28,11 +29,15 @@ function MyApp({ Component, pageProps }) {
         <link rel="shortcut icon" href="/images/favicon.png" />
         <title>Graana Admin</title>
       </Head>
-      <Page>
-        <Component {...pageProps} />
-      </Page>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Page>
+            <Component {...pageProps} />
+          </Page>
+        </PersistGate>
+      </Provider>
     </NoSSR>
   );
 }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;
