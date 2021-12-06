@@ -5,9 +5,6 @@
 // };
 
 export const env = {
-  // https://graana.virtual-force.io/adminserver
-
-  // https://0fb4-39-45-18-211.ngrok.io
   BaseURL: "https://graana.virtual-force.io/adminserver",
 
   CityURL: "https://graana.com/api/city",

@@ -52,3 +52,19 @@ export const Get_Profesionals = (data) => {
   );
   return res;
 };
+
+export const View_Professional = (id) => {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const res = axios.get(
+    `${env.BaseURL}//api/v1/professionals/${id}/getProfessional`,
+    config
+  );
+  return res;
+};
+
+export const Edit_Professionals = () => {};

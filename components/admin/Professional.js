@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Get_Profesionals } from "../../pages/api/apiCalls";
 import StarRatings from "react-star-ratings";
 import ReactPaginate from "react-paginate";
+import { Button } from "react-bootstrap";
 
 const Professionals = () => {
   const [professional, setProfessional] = useState([]);
@@ -47,6 +48,7 @@ const Professionals = () => {
             <th>Average Task Time</th>
             <th>Completed Task Count</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -73,6 +75,16 @@ const Professionals = () => {
                 <td> {p.avg_task_time}</td>
                 <td> {p?.completed_task_count}</td>
                 <td> {p.active}</td>
+                <td className="col-span=2">
+                  <Button
+                    onClick={() => {
+                      router.push(`/admin/edit?id=${p.id}`);
+                    }}
+                    variant="outline-primary"
+                  >
+                    Edit
+                  </Button>
+                </td>
               </tr>
             );
           })}

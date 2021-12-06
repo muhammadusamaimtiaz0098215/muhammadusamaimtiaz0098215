@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import Add from "../../components/admin/Add";
+import EditProfesional from "../../components/admin/EditProfesional";
 import Login from "../../components/admin/Login";
 import Professionals from "../../components/admin/Professional";
 
 const varcomp = () => {
   const router = useRouter();
   const { param } = router.query;
-  // console.log(param);
   const routeHandler = () => {
     switch (param) {
       case "login":
@@ -17,6 +17,9 @@ const varcomp = () => {
 
       case "professionals":
         return <Professionals />;
+
+      case "edit":
+        return <EditProfesional />;
 
       default:
         break;
