@@ -112,7 +112,6 @@ const Add = () => {
 
   const ondisplaypichange = (e) => {
     let files = e.target.files[0];
-
     setDisplayPicState(files);
   };
 

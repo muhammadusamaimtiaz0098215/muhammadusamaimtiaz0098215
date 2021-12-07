@@ -61,10 +61,25 @@ export const View_Professional = (id) => {
     },
   };
   const res = axios.get(
-    `${env.BaseURL}//api/v1/professionals/${id}/getProfessional`,
+    `${env.BaseURL}/api/v1/professionals/${id}/getProfessional`,
     config
   );
   return res;
 };
 
-export const Edit_Professionals = () => {};
+export const Edit_Professionals = (id, data) => {
+  console.log("hhh", id, data);
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const res = axios.put(
+    `${env.BaseURL}/api/v1/professionals/${id}/editProfessional`,
+    data,
+    config
+  );
+  return res;
+};

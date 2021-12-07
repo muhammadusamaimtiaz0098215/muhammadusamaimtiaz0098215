@@ -3,7 +3,10 @@ import { Form, Button, InputGroup } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { View_Professional } from "../../pages/api/apiCalls";
+import {
+  View_Professional,
+  Edit_Professionals,
+} from "../../pages/api/apiCalls";
 import { AreaAPI, CategoryAPI, CityAPI } from "../../pages/api/apiCalls";
 
 const EditProfesional = () => {
@@ -28,7 +31,7 @@ const EditProfesional = () => {
     description: "",
     email: "",
     location: {},
-    media: [{ path: "" }],
+    media: "",
     name: "",
     office_address: "",
     password: "",
@@ -41,10 +44,51 @@ const EditProfesional = () => {
   const [areas, setAreas] = useState([]);
   const [selectedcity, setSelectedCity] = useState([]);
   const [category, setCategory] = useState([]);
-  const [selectedcategory, setSelectedcategory] = useState([
-    formfields.categories,
-  ]);
+  const [selectedcategory, setSelectedcategory] = useState([]);
+  const [displayImg, setDisplayImg] = useState("");
   const [test, setTest] = useState([]);
+  const [previouscategory, setPreviouscategory] = useState([]);
+
+  const [displayPicState, setDisplayPicState] = useState({});
+
+  useEffect(() => {
+    View_Professional(id).then((res) => {
+      console.log(res.data.professionalDetails);
+      console.log("selected category", selectedcategory);
+      setDisplayImg(res.data.professionalDetails.media[0]?.file_name);
+      setFormfields({
+        ...formfields,
+        name: res.data.professionalDetails.name,
+        username: res.data.professionalDetails.username,
+        email: res.data.professionalDetails.email,
+        city: res.data.professionalDetails.city,
+        area: res.data.professionalDetails.area,
+        location: res.data.professionalDetails.location,
+        description: res.data.professionalDetails.description,
+        categories: res.data.professionalDetails.categories,
+        cnic: res.data.professionalDetails.cnic,
+        office_address: res.data.professionalDetails.office_address,
+        secondary_office_address:
+          res.data.professionalDetails.secondary_office_address,
+        active: res.data.professionalDetails.active,
+        phone: res.data.professionalDetails.phone,
+        media: res.data.professionalDetails.media[0]?.path,
+      });
+
+      CityAPI().then((res) => {
+        setCity(res.data);
+      });
+
+      AreaAPI(selectedcity).then((res) => {
+        setAreas(res.data);
+      });
+
+      CategoryAPI().then((res) => {
+        setCategory(res.data);
+      });
+    });
+    // setSelectedcategory(formfields.categories);
+  }, [selectedcity]);
 
   const CityIdSelector = (e) => {
     console.log(e.target.value);
@@ -57,7 +101,6 @@ const EditProfesional = () => {
       m.name == e ? setSelectedCity(m.id) : null;
     });
   };
-
   const selectcity = () => {
     let items = [];
     city.map((c) =>
@@ -95,67 +138,39 @@ const EditProfesional = () => {
     return category_arr;
   };
 
-  let data11 = selectcategory();
-  let data22 = formfields.categories;
-  const selectcategorychange = (e) => {
-    data11.map((x) => {
+  const addCategories = (e) => {
+    console.log(e.target.value);
+    let arr = selectcategory();
+    arr.map((x) => {
       x.props.value == e.target.value
         ? setSelectedcategory([...selectedcategory, x.props.children])
         : null;
     });
-    setTest([...selectedcategory, e.target.value]);
-  };
-  const clickcheck = (category) => {
-    let s = selectedcategory.filter((item) => item !== category);
-    setSelectedcategory([...s]);
-  };
-
-  const onChange = (e) => {
-    let img = e.target.files[0];
-    if (img) {
-      setFormfields({ ...formfields, media: e.target.files[0] });
-    }
-  };
-  useEffect(() => {
-    View_Professional(id).then((res) => {
-      console.log(res.data.professionalDetails);
-
-      setFormfields({
-        ...formfields,
-        name: res.data.professionalDetails.name,
-        username: res.data.professionalDetails.username,
-        email: res.data.professionalDetails.email,
-        city: res.data.professionalDetails.city,
-        area: res.data.professionalDetails.area,
-        location: res.data.professionalDetails.location,
-        description: res.data.professionalDetails.description,
-        categories: res.data.professionalDetails.categories,
-        cnic: res.data.professionalDetails.cnic,
-        office_address: res.data.professionalDetails.office_address,
-        secondary_office_address:
-          res.data.professionalDetails.secondary_office_address,
-        active: res.data.professionalDetails.active,
-        phone: res.data.professionalDetails.phone,
-        media: res.data.professionalDetails.media[0]?.path,
-      });
-
-      CityAPI().then((res) => {
-        setCity(res.data);
-      });
-
-      AreaAPI(selectedcity).then((res) => {
-        setAreas(res.data);
-      });
-
-      CategoryAPI().then((res) => {
-        setCategory(res.data);
+    let empty = [];
+    category.map((c) => {
+      selectedcategory.map((s) => {
+        c.name == s ? empty.push(c) : null;
       });
     });
-    // setSelectedcategory(formfields.categories);
-  }, [selectedcity]);
+    setFormfields({ ...formfields, categories: empty });
+  };
+
+  const removeCategory = (category) => {
+    let c = formfields.categories;
+    let index = formfields.categories.findIndex((x) => x.name == category);
+    c.splice(index, 1);
+    setFormfields({ ...formfields, categories: c });
+  };
+
+  const ondisplaypichange = (e) => {
+    let img = e.target.files[0];
+    if (img) {
+      setDisplayPicState(img);
+    }
+  };
 
   const onSubmit = (data) => {
-    console.log("MY DATA", data);
+    console.log(data);
     try {
       const body = {
         ...data,
@@ -170,15 +185,23 @@ const EditProfesional = () => {
           formData.append(key, d[key]);
         }
       }
-      data.categories?.forEach((a, index) => {
-        formData.append(`categories[${index}]`, a);
-      });
-    } catch (error) {}
+      formfields.categories == []
+        ? formData.append(`categories`, [])
+        : formfields.categories?.forEach((a, index) => {
+            formData.append(`categories[${index}]`, a.id);
+          });
+
+      const res = Edit_Professionals(id, formData);
+      console.log("My response", res);
+    } catch (error) {
+      console.log(error);
+    }
+
+    //
   };
 
   return (
     <div>
-      {console.log("HELLO", selectedcategory)}
       <div>
         <div className={styles.professional_table}>
           <div className={styles.head_wrapper}>
@@ -249,7 +272,7 @@ const EditProfesional = () => {
                               className={styles.form_control}
                               type="email"
                               name="email"
-                              valdefaultValueue={formfields.email}
+                              defaultValue={formfields.email}
                             />
                           </Form.Group>
                           {errors?.Email?.type === "required" && (
@@ -268,6 +291,7 @@ const EditProfesional = () => {
                                 // required: true,
                               })}
                               name="city"
+                              defaultValue={formfields.city}
                               onChange={(e) => CityIdSelector(e)}
                             >
                               <option value={formfields.city}>
@@ -290,10 +314,13 @@ const EditProfesional = () => {
                                 // required: true,
                               })}
                               aria-label="Default select example"
-                              value={formfields.area}
+                              defaultValue={formfields.area}
                             >
                               {selectarea()}
-                              <option value="">{formfields.area}</option>
+
+                              <option value={formfields.area}>
+                                {formfields.area}
+                              </option>
                             </Form.Select>
                           </Form.Group>
                           {errors?.Area?.type === "required" && (
@@ -312,7 +339,7 @@ const EditProfesional = () => {
                               })}
                               className={styles.form_control}
                               name="location"
-                              value={formfields.location}
+                              defaultValue={formfields.location}
                             />
                           </Form.Group>{" "}
                           {errors?.GeoCodes?.type === "required" && (
@@ -350,16 +377,17 @@ const EditProfesional = () => {
                                 // required: true,
                                 maxLength: 32,
                               })}
-                              multiple
-                              className={styles.form_control}
+                              //className={"d-none"}
                               type="file"
                               id="formFile"
+                              // value={formfields.media}
                               onChange={(e) => {
                                 ondisplaypichange(e);
                               }}
-                              name="photo"
-                              value={formfields.media[0].path}
+                              //name="photo"
                             />
+
+                            {/* <Form.Label>{displayImg}</Form.Label> */}
                           </Form.Group>
                           {errors?.DisplayPicture?.type === "required" && (
                             <p className={styles.Login_p}>
@@ -396,9 +424,9 @@ const EditProfesional = () => {
                               {...register("categories", {
                                 // required: true,
                               })}
-                              onChange={(e) => selectcategorychange(e)}
+                              onChange={(e) => addCategories(e)}
                               name="categories"
-                              value={formfields.categories.name}
+                              defaultValue={formfields.categories.name}
                             >
                               {selectcategory()}
 
@@ -407,26 +435,27 @@ const EditProfesional = () => {
                               </option>
                             </Form.Select>
                           </Form.Group>
-                          {data22.map((cat) => {
-                            return (
-                              <div className={styles.categories_maindiv}>
-                                <div
-                                  className={`${styles.categoty_tags} `}
-                                  id="demo"
+                          {/* +++++++++++++++For Previous Categories++++++++++++++++++*/}
+                          {formfields.categories.map((cat) => (
+                            <div className={styles.categories_maindiv}>
+                              <div
+                                className={`${styles.categoty_tags} `}
+                                id="demo"
+                              >
+                                {cat.name}
+
+                                <span
+                                  className="icon-close"
+                                  onClick={() => {
+                                    removeCategory(cat.name);
+                                  }}
                                 >
-                                  {cat.name}
-                                  <span
-                                    className="icon-close"
-                                    onClick={() => {
-                                      clickcheck(cat);
-                                    }}
-                                  >
-                                    x
-                                  </span>
-                                </div>
+                                  x
+                                </span>
                               </div>
-                            );
-                          })}
+                            </div>
+                          ))}
+                          {/* +++++++++++++++For New Categories */}
                           <Form.Group className={`${styles.form_group} mt-3`}>
                             <Form.Label
                               className={styles.label_inner}
@@ -435,14 +464,14 @@ const EditProfesional = () => {
                               CNIC
                             </Form.Label>
                             <Form.Control
-                              {...register("CNIC", {
+                              {...register("cnic", {
                                 // required: true,
                                 maxLength: 13,
                               })}
                               className={styles.form_control}
                               type="number"
                               name="cnic"
-                              value={formfields.cnic}
+                              defaultValue={formfields.cnic}
                             />
                           </Form.Group>
                           {errors?.CNIC?.type === "required" && (
@@ -480,7 +509,7 @@ const EditProfesional = () => {
                               Office Address
                             </Form.Label>
                             <Form.Control
-                              {...register("officeaddress", {
+                              {...register("office_address", {
                                 // required: true,
                                 maxLength: 32,
                               })}
@@ -488,7 +517,7 @@ const EditProfesional = () => {
                               as="textarea"
                               id="exampleFormControlTextarea1"
                               name="office_address"
-                              value={formfields.office_address}
+                              defaultValue={formfields.office_address}
                             />
                           </Form.Group>
                           {errors?.OfficeAddress?.type === "required" && (
@@ -501,7 +530,7 @@ const EditProfesional = () => {
                               Secondary Address
                             </Form.Label>
                             <Form.Control
-                              {...register("secondaryaddress", {
+                              {...register("secondary_office_address", {
                                 // required: true,
                                 maxLength: 32,
                               })}
@@ -509,7 +538,7 @@ const EditProfesional = () => {
                               as="textarea"
                               id="exampleFormControlTextarea1"
                               name="secondary_office_address"
-                              value={formfields.secondary_office_address}
+                              defaultValue={formfields.secondary_office_address}
                             />
                           </Form.Group>
                           {errors?.SecondaryAddress?.type === "required" && (
@@ -533,7 +562,7 @@ const EditProfesional = () => {
                                 //className={styles.form_check_input}
                                 type="checkbox"
                                 id="flexSwitchCheckChecked"
-                                {...register("activestatus", {
+                                {...register("active", {
                                   // required: true,
                                 })}
                                 name="active"
@@ -558,14 +587,14 @@ const EditProfesional = () => {
                               Contact
                             </Form.Label>
                             <Form.Control
-                              {...register("contact", {
+                              {...register("phone", {
                                 // required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}
                               type="number"
                               name="phone"
-                              value={formfields.phone}
+                              defaultValue={formfields.phone}
                             />
                           </Form.Group>
                           {errors?.Contact?.type === "required" && (
