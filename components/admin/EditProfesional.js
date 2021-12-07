@@ -44,17 +44,16 @@ const EditProfesional = () => {
   const [areas, setAreas] = useState([]);
   const [selectedcity, setSelectedCity] = useState([]);
   const [category, setCategory] = useState([]);
-  const [selectedcategory, setSelectedcategory] = useState([]);
   const [displayImg, setDisplayImg] = useState("");
-  const [test, setTest] = useState([]);
-  const [previouscategory, setPreviouscategory] = useState([]);
+
+  const [newcategory, setNewCategory] = useState([]);
+  const [updatedcategory, setUpdatedCategory] = useState([]);
 
   const [displayPicState, setDisplayPicState] = useState({});
 
   useEffect(() => {
     View_Professional(id).then((res) => {
       console.log(res.data.professionalDetails);
-      console.log("selected category", selectedcategory);
       setDisplayImg(res.data.professionalDetails.media[0]?.file_name);
       setFormfields({
         ...formfields,
@@ -138,29 +137,28 @@ const EditProfesional = () => {
     return category_arr;
   };
 
-  const addCategories = (e) => {
+  const addNewCategory = (e) => {
     console.log(e.target.value);
-    let arr = selectcategory();
-    arr.map((x) => {
-      x.props.value == e.target.value
-        ? setSelectedcategory([...selectedcategory, x.props.children])
+    let idcollection = selectcategory();
+    idcollection.map((x) => {
+      e.target.value == x.props.value
+        ? setNewCategory([...newcategory, x.props.children])
         : null;
     });
-
-    let empty = [];
-    category.map((c) => {
-      selectedcategory.map((s) => {
-        c.name == s ? empty.push(c) : null;
-      });
-    });
-    setFormfields({ ...formfields, categories: empty });
   };
-
-  const removeCategory = (category) => {
+  const removePreviousCategory = (e) => {
+    console.log(e);
     let c = formfields.categories;
-    let index = formfields.categories.findIndex((x) => x.name == category);
+    let index = formfields.categories.findIndex((x) => x.name == e);
     c.splice(index, 1);
     setFormfields({ ...formfields, categories: c });
+  };
+
+  const removeNewCategory = (e) => {
+    let c = newcategory;
+    let index = newcategory.findIndex((x) => x == e);
+    c.splice(index, 1);
+    setNewCategory([c]);
   };
 
   const ondisplaypichange = (e) => {
@@ -171,6 +169,23 @@ const EditProfesional = () => {
   };
 
   const onSubmit = (data) => {
+    let prevarr = [];
+    let newarr = [];
+
+    formfields.categories.map((m) => {
+      prevarr.push(m.id);
+    });
+
+    newcategory.map((n) => {
+      category.map((c) => {
+        n == c.name ? newarr.push(c.id) : null;
+      });
+    });
+
+    let updatedarr = prevarr.concat(newarr);
+
+    setUpdatedCategory(updatedarr);
+
     console.log(data);
     try {
       const body = {
@@ -186,10 +201,11 @@ const EditProfesional = () => {
           formData.append(key, d[key]);
         }
       }
-      formfields.categories == []
+
+      updatedarr == []
         ? formData.append(`categories`, [])
-        : formfields.categories?.forEach((a, index) => {
-            formData.append(`categories[${index}]`, a.id);
+        : updatedarr?.forEach((a, index) => {
+            formData.append(`categories[${index}]`, a);
           });
 
       const res = Edit_Professionals(id, formData);
@@ -425,8 +441,8 @@ const EditProfesional = () => {
                               {...register("categories", {
                                 // required: true,
                               })}
-                              onChange={(e) => addCategories(e)}
                               name="categories"
+                              onChange={(e) => addNewCategory(e)}
                               defaultValue={formfields.categories.name}
                             >
                               {selectcategory()}
@@ -448,7 +464,27 @@ const EditProfesional = () => {
                                 <span
                                   className="icon-close"
                                   onClick={() => {
-                                    removeCategory(cat.name);
+                                    removePreviousCategory(cat.name);
+                                  }}
+                                >
+                                  x
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                          {/* +++++++++++++For New Categories++++++++++++++++++++ */}
+                          {newcategory.map((cat) => (
+                            <div className={styles.categories_maindiv}>
+                              <div
+                                className={`${styles.categoty_tags} `}
+                                id="demo"
+                              >
+                                {cat}
+
+                                <span
+                                  className="icon-close"
+                                  onClick={() => {
+                                    removeNewCategory(cat);
                                   }}
                                 >
                                   x
