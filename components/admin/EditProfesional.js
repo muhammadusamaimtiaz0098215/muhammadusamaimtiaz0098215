@@ -146,6 +146,7 @@ const EditProfesional = () => {
         ? setSelectedcategory([...selectedcategory, x.props.children])
         : null;
     });
+
     let empty = [];
     category.map((c) => {
       selectedcategory.map((s) => {
@@ -455,7 +456,6 @@ const EditProfesional = () => {
                               </div>
                             </div>
                           ))}
-                          {/* +++++++++++++++For New Categories */}
                           <Form.Group className={`${styles.form_group} mt-3`}>
                             <Form.Label
                               className={styles.label_inner}
@@ -608,7 +608,7 @@ const EditProfesional = () => {
                             type="submit"
                             className={(styles.btn, styles.btn_red)}
                           >
-                            <a> Add Professional </a>
+                            <a> Edit Professional </a>
                           </Button>
                         </div>
                       </Form>
