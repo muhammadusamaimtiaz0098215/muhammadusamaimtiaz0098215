@@ -248,7 +248,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("name", {
-                                // required: true,
+                                required: true,
                                 minLength: 3,
                                 maxLength: 32,
                               })}
@@ -269,7 +269,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("username", {
-                                // required: true,
+                                required: true,
                                 minLength: 3,
                                 maxLength: 32,
                               })}
@@ -290,7 +290,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("email", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}
@@ -312,7 +312,7 @@ const EditProfesional = () => {
                             <Form.Select
                               id="areacheck"
                               {...register("city", {
-                                // required: true,
+                                required: true,
                               })}
                               name="city"
                               defaultValue={formfields.city}
@@ -335,7 +335,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Select
                               {...register("area", {
-                                // required: true,
+                                required: true,
                               })}
                               aria-label="Default select example"
                               defaultValue={formfields.area}
@@ -358,7 +358,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("geocodes", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}
@@ -377,7 +377,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("description", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}
@@ -399,7 +399,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("displaypicture", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               //className={"d-none"}
@@ -428,7 +428,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("portfoliopicture", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}
@@ -450,7 +450,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Select
                               {...register("categories", {
-                                // required: true,
+                                required: true,
                               })}
                               name="categories"
                               onChange={(e) => addNewCategory(e)}
@@ -512,7 +512,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("cnic", {
-                                // required: true,
+                                required: true,
                                 maxLength: 13,
                               })}
                               className={styles.form_control}
@@ -532,7 +532,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("additionalareas", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}
@@ -557,7 +557,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("office_address", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}
@@ -578,7 +578,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("secondary_office_address", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}
@@ -610,7 +610,7 @@ const EditProfesional = () => {
                                 type="checkbox"
                                 id="flexSwitchCheckChecked"
                                 {...register("active", {
-                                  // required: true,
+                                  required: true,
                                 })}
                                 name="active"
                                 defaultChecked={formfields.active}
@@ -635,7 +635,7 @@ const EditProfesional = () => {
                             </Form.Label>
                             <Form.Control
                               {...register("phone", {
-                                // required: true,
+                                required: true,
                                 maxLength: 32,
                               })}
                               className={styles.form_control}

@@ -182,7 +182,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("name", {
-                              // required: true,
+                              required: true,
                               minLength: 3,
                               maxLength: 32,
                             })}
@@ -201,7 +201,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("username", {
-                              // required: true,
+                              required: true,
                               minLength: 3,
                               maxLength: 32,
                             })}
@@ -221,7 +221,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("email", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -242,7 +242,7 @@ const Add = () => {
                           <Form.Select
                             id="areacheck"
                             {...register("city", {
-                              // required: true,
+                              required: true,
                             })}
                             onChange={(e) => AreaIdHandler(e)}
                           >
@@ -261,7 +261,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Select
                             {...register("area", {
-                              // required: true,
+                              required: true,
                             })}
                             aria-label="Default select example"
                           >
@@ -282,7 +282,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("geocodes", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -300,7 +300,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("description", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -320,7 +320,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("displaypicture", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             multiple
@@ -343,7 +343,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("portfoliopicture", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -365,7 +365,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Select
                             {...register("categories", {
-                              // required: true,
+                              required: true,
                             })}
                             onChange={(e) => selectcategorychange(e)}
                           >
@@ -405,7 +405,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("CNIC", {
-                              // required: true,
+                              required: true,
                               maxLength: 13,
                             })}
                             className={styles.form_control}
@@ -424,7 +424,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("additionalareas", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -449,7 +449,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("officeaddress", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -469,7 +469,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("secondaryaddress", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
@@ -500,7 +500,7 @@ const Add = () => {
                               type="checkbox"
                               id="flexSwitchCheckChecked"
                               {...register("activestatus", {
-                                // required: true,
+                                required: true,
                               })}
                             />
                           </Form.Switch>
@@ -523,7 +523,7 @@ const Add = () => {
                           </Form.Label>
                           <Form.Control
                             {...register("contact", {
-                              // required: true,
+                              required: true,
                               maxLength: 32,
                             })}
                             className={styles.form_control}
