@@ -68,7 +68,6 @@ export const View_Professional = (id) => {
 };
 
 export const Edit_Professionals = (id, data) => {
-  console.log("hhh", id, data);
   const token = localStorage.getItem("token");
 
   const config = {

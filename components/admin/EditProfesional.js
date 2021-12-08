@@ -8,6 +8,7 @@ import {
   Edit_Professionals,
 } from "../../pages/api/apiCalls";
 import { AreaAPI, CategoryAPI, CityAPI } from "../../pages/api/apiCalls";
+import Image from "next/image";
 
 const EditProfesional = () => {
   const router = useRouter();
@@ -89,6 +90,8 @@ const EditProfesional = () => {
     // setSelectedcategory(formfields.categories);
   }, [selectedcity]);
 
+  let imgsrc = formfields.media;
+
   const CityIdSelector = (e) => {
     console.log(e.target.value);
     cityIdConverter(e.target.value);
@@ -156,9 +159,12 @@ const EditProfesional = () => {
 
   const removeNewCategory = (e) => {
     let c = newcategory;
-    let index = newcategory.findIndex((x) => x == e);
-    c.splice(index, 1);
-    setNewCategory([c]);
+
+    let s = c.filter((item) => item !== e);
+    // setSelectedcategory([...s]);
+    // let index = newcategory.findIndex((x) => x == e);
+    // c.splice(index, 1);
+    setNewCategory([...s]);
   };
 
   const ondisplaypichange = (e) => {
@@ -201,12 +207,13 @@ const EditProfesional = () => {
           formData.append(key, d[key]);
         }
       }
-
-      updatedarr == []
-        ? formData.append(`categories`, [])
-        : updatedarr?.forEach((a, index) => {
+      // formData.append(`categories[${0}]`, null)
+      console.log("updated", updatedarr);
+      updatedarr.length > 0
+        ? updatedarr?.forEach((a, index) => {
             formData.append(`categories[${index}]`, a);
-          });
+          })
+        : formData.append(`categories[0]`, []);
 
       const res = Edit_Professionals(id, formData);
       console.log("My response", res);
@@ -375,6 +382,7 @@ const EditProfesional = () => {
                               })}
                               className={styles.form_control}
                               as="textarea"
+                              size="lg"
                               id="exampleFormControlTextarea1"
                               name="description"
                               defaultValue={formfields.description}
@@ -403,14 +411,17 @@ const EditProfesional = () => {
                               }}
                               //name="photo"
                             />
-
-                            {/* <Form.Label>{displayImg}</Form.Label> */}
                           </Form.Group>
                           {errors?.DisplayPicture?.type === "required" && (
                             <p className={styles.Login_p}>
                               This field is required
                             </p>
                           )}
+                          {/* <Image
+                            src={imgsrc ? imgsrc : "/dumy-user.png"}
+                            height={10}
+                            width={16}
+                          /> */}
                           <Form.Group className={styles.form_group}>
                             <Form.Label className={styles.label_inner}>
                               Portfolio Pictures

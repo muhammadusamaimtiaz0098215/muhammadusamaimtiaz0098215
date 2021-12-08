@@ -136,6 +136,8 @@ const Add = () => {
         ...data,
         photo: displayPicState,
       };
+
+      console.log("d pic", displayPicState);
       let formData = new FormData();
 
       let d = { ...body };
